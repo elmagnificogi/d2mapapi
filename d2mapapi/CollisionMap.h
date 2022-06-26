@@ -20,6 +20,20 @@ struct Point
 	}
 };
 
+struct Exit {
+	std::vector<Point> offsets;
+	bool isPortal = false;
+
+	template < typename JSON_IO >
+	void
+		json_io(JSON_IO& io)
+	{
+		io
+			& json_dto::mandatory("offsets", offsets)
+			& json_dto::mandatory("isPortal", isPortal);
+	}
+};
+
 struct AdjacentLevel
 {
 	std::vector<Point> exits{};
@@ -39,6 +53,23 @@ struct AdjacentLevel
 	}
 };
 
+struct Rect {
+	int x0{};
+	int y0{};
+	int x1{};
+	int y1{};
+	template < typename JSON_IO >
+	void
+		json_io(JSON_IO& io)
+	{
+		io
+			& json_dto::mandatory("x0", x0)
+			& json_dto::mandatory("y0", y0)
+			& json_dto::mandatory("x1", x1)
+			& json_dto::mandatory("y1", y1);
+	}
+};
+
 class CCollisionMap
 {
 private:	
@@ -49,8 +80,9 @@ public:
 	void build();
 
 	Point m_levelOrigin; // level top-left
-	std::vector<std::vector<int>> m_map;
-	std::map<std::string, AdjacentLevel> m_adjacentLevels;
+	std::vector<int16_t> mapData;
+	Rect crop = { -1, -1, -1, -1 };
+	std::map<std::string, Exit> exits;
 	std::map<std::string, std::vector<Point>> m_npcs;
 	std::map<std::string, std::vector<Point>> m_objects;
 

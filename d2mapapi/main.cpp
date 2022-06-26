@@ -28,7 +28,7 @@ int main( int argc, const char* argv[] ) {
 			router_t >;
 
 		std::string address = "localhost";
-		std::uint16_t port = 8080;
+		std::uint16_t port = 4396;
 
 		// handle args in this loop:
 		for(i=2; i<argc; ++i)
